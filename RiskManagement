@@ -1,0 +1,62 @@
+
+
+let currentProtocol = {
+    startingAccount: 500,
+    get baseAccount() {
+        
+        return this.startingAccount;
+
+    },
+    set baseAccount(bufferadjustmentvalue){
+
+        return this.baseAccount + bufferadjustmentvalue;
+
+    },
+    get liveAccountTotal(){
+        return this.startingAccount;
+    },
+    set liveAccountTotal(pnl){
+        return this.liveAccountTotal + pnl;
+    },
+    get mlpd(){
+        return this.baseAccount/2;
+    },
+    get mlpt(){
+        return this.mlpd/5;
+    },
+    get nextRiskUnit(){
+        return this.mlpt * 2;
+    },
+    get goalRiskAdjustmentBuffer(){ 
+        return this.nextRiskUnit * 5;
+
+    },
+    get currentBuffer(){
+        return this.liveAccountTotal-this.baseAccount;
+
+    },
+    get currentPercentOfGoalBuffer(){
+        return (this.currentBuffer/this.goalRiskAdjustmentBuffer)/100;
+    },
+
+
+}
+
+
+
+function bufferAdjustment(){
+    if (currentProtocol.currentBuffer>=currentProtocol.goalRiskAdjustmentBuffer || currentProtocol.currentBuffer<=currentProtocol.mlpd){
+        currentProtocol.baseAccount(currentProtocol.currentBuffer);
+
+    }
+        
+}
+
+
+
+
+for (let [key, value] of Object.entries(currentProtocol)) {
+    console.log(key,value);
+}
+
+
